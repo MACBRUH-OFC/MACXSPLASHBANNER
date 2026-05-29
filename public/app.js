@@ -152,7 +152,7 @@ window.toggleDescription=function(btn){
 };
 
 window.copyImage=function(link,el){
-  navigator.clipboard.writeText(link);
+  navigator.clipboard.writeText(window.location.origin + link);
   el.innerHTML=`<svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>`;
   setTimeout(()=>{
     el.innerHTML=`<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
@@ -164,7 +164,21 @@ function renderImage(url){
   return`<img src="${escapeHTML(url)}" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=&quot;error-box&quot;>IMAGE LOAD FAILED</div>';">`;
 }
 
-function card(item,region,isAnnouncement=false,index=0){
+function convertToProxyUrl(originalUrl, region, type) {
+  if (!originalUrl) return '';
+  try {
+    const urlObj = new URL(originalUrl);
+    const filename = urlObj.pathname.split('/').pop() || 'file';
+    return `/assets/${region}/${type}/${filename}?file=${encodeURIComponent(originalUrl)}`;
+  } catch (e) {
+    return originalUrl;
+  }
+}
+
+function card(item,region,isAnnouncement=false,index=0) {
+  const proxiedImage = convertToProxyUrl(item.image, region, 'images');
+  const proxiedRedirect = convertToProxyUrl(item.redirect_url || item.social_url, region, 'redirects');
+
   const type=imageType(item.image||'');
   const t=tag(item.start_time);
   const title=titleParser(item.title||'');
@@ -175,12 +189,12 @@ function card(item,region,isAnnouncement=false,index=0){
   return `
   <div class="card">
     <div class="media">
-      <div class="image-box ${type}">${renderImage(item.image||'')}</div>
+      <div class="image-box ${type}">${renderImage(proxiedImage)}</div>
     </div>
     <div class="content">
       <div class="action-row">
-        ${item.redirect_url||item.social_url?`<a href="${escapeHTML(item.redirect_url||item.social_url)}" target="_blank" class="action-btn"><svg viewBox="0 0 24 24"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a>`:''}
-        <button class="action-btn" onclick="copyImage('${escapeHTML(item.image||'')}',this)">
+        ${proxiedRedirect?`<a href="${escapeHTML(proxiedRedirect)}" target="_blank" class="action-btn"><svg viewBox="0 0 24 24"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a>`:''}
+        <button class="action-btn" onclick="copyImage('${escapeHTML(proxiedImage)}',this)">
           <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
         </button>
       </div>
