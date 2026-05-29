@@ -8,7 +8,10 @@ export default async function handler(req, res) {
   if (file) {
     const targetUrl = decodeURIComponent(file);
     try {
-      if (req.url.includes('/redirects/')) {
+      const urlParts = req.url.split('?')[0];
+      const filename = urlParts.split('/').pop() || '';
+      
+      if (filename.startsWith('r_')) {
         res.writeHead(302, { Location: targetUrl });
         return res.end();
       }
