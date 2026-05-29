@@ -1,23 +1,20 @@
 (function(){
 
-// Helper function to generate a rotating cryptographic signature based on time
 function generateDynamicHash(region) {
-    // Generates a token that changes every 60 seconds
     const timeToken = Math.floor(Date.now() / 60000); 
-    const rawString = `${region}_secret_salt_${timeToken}`;
+    const hourlyMix = new Date().getUTCHours();
+    const dynamicSalt = `salt_${region}_mix_${hourlyMix}`;
+    const rawString = `${region}_${dynamicSalt}_${timeToken}`;
     
-    // Fast client-side string hashing (djb2 variant)
     let hash = 5381;
     for (let i = 0; i < rawString.length; i++) {
         hash = (hash * 33) ^ rawString.charCodeAt(i);
     }
     const finalHash = Math.abs(hash).toString(36);
     
-    // Obfuscate parameter layout completely
-    // URL looks like: /api/fetch-region?_id=1g3v8z&_token=aW5kOjI5Njg3NjY
     return {
         _id: finalHash,
-        _token: btoa(region + ":" + timeToken).replace(/=/g, '') // Base64 mask
+        _token: btoa(region + ":" + timeToken).replace(/=/g, '')
     };
 }
 
