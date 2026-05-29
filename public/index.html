@@ -3,25 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Splash Engine</title>
+    <title>Splash Website</title>
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
     <header id="header">
-        <div class="header-container">
-            <div class="logo-zone">
-                <h1>SPLASH <span>ENGINE</span></h1>
-                <div class="status-pill" id="selectedRegion">...</div>
+        <div class="header-inner">
+            <div class="logo-area">
+                <h1>Splash <span>Website</span></h1>
+                <div class="badge" id="selectedRegion">...</div>
             </div>
         </div>
     </header>
 
-    <main class="main-layout">
-        <div class="sidebar">
-            <div class="sidebar-sticky" id="regions"></div>
-        </div>
-        <div class="content-space" id="app"></div>
-    </main>
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="sidebar-nav" id="regions"></div>
+        </aside>
+        <main class="main-content" id="app"></main>
+    </div>
 
     <button id="scrollTop" title="Scroll to top">
         <svg viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg>
