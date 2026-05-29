@@ -2,8 +2,34 @@ export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'public, s-maxage=300, max-age=60, stale-while-revalidate=30');
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET');
-  res.setHeader('Content-Type', 'application/json');
 
+  const { file } = req.query;
+
+  if (file) {
+    const targetUrl = decodeURIComponent(file);
+    try {
+      if (req.url.includes('/redirects/')) {
+        res.writeHead(302, { Location: targetUrl });
+        return res.end();
+      }
+
+      const mediaResponse = await fetch(targetUrl);
+      if (!mediaResponse.ok) {
+        return res.status(404).json({ error: 'Asset source target down' });
+      }
+
+      const contentType = mediaResponse.headers.get('content-type') || 'application/octet-stream';
+      res.setHeader('Content-Type', contentType);
+      res.setHeader('Cache-Control', 'public, max-age=86400');
+      
+      const arrayBuffer = await mediaResponse.arrayBuffer();
+      return res.send(Buffer.from(arrayBuffer));
+    } catch (err) {
+      return res.status(500).json({ error: 'Asset transmission breakdown' });
+    }
+  }
+
+  res.setHeader('Content-Type', 'application/json');
   const { _id, _token } = req.query;
 
   if (!_id || !_token) {
