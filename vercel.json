@@ -1,8 +1,14 @@
 {
   "version": 2,
+  "cleanUrls": true,
   "rewrites": [
     {
-      "source": "/(app\\.js|styles\\.css)",
+      "source": "/app.js",
+      "status": 403,
+      "destination": "/index.html"
+    },
+    {
+      "source": "/styles.css",
       "status": 403,
       "destination": "/index.html"
     },
@@ -15,12 +21,12 @@
       "destination": "/api/fetch-region.js"
     },
     {
-      "source": "/(ind|br|na|sac|mea|vn|bd|pk|sg|id|cis|th|tw|eu)/?",
+      "source": "/(ind|br|na|sac|mea|vn|bd|pk|sg|id|cis|th|tw|eu)",
       "destination": "/index.html"
     },
     {
-      "source": "/(.*)",
-      "destination": "/$1"
+      "source": "/(ind|br|na|sac|mea|vn|bd|pk|sg|id|cis|th|tw|eu)/",
+      "destination": "/index.html"
     }
   ]
 }
