@@ -1,5 +1,26 @@
 (function(){
 
+// Helper function to generate a rotating cryptographic signature based on time
+function generateDynamicHash(region) {
+    // Generates a token that changes every 60 seconds
+    const timeToken = Math.floor(Date.now() / 60000); 
+    const rawString = `${region}_secret_salt_${timeToken}`;
+    
+    // Fast client-side string hashing (djb2 variant)
+    let hash = 5381;
+    for (let i = 0; i < rawString.length; i++) {
+        hash = (hash * 33) ^ rawString.charCodeAt(i);
+    }
+    const finalHash = Math.abs(hash).toString(36);
+    
+    // Obfuscate parameter layout completely
+    // URL looks like: /api/fetch-region?_id=1g3v8z&_token=aW5kOjI5Njg3NjY
+    return {
+        _id: finalHash,
+        _token: btoa(region + ":" + timeToken).replace(/=/g, '') // Base64 mask
+    };
+}
+
 const API = "/api/fetch-region";
 
 const REGIONS=[
@@ -40,7 +61,8 @@ const cache=new Map();
 
 function preloadAll(){
   REGIONS.forEach(region=>{
-    fetch(`${API}?region=${region.code}`)
+    const params = generateDynamicHash(region.code);
+    fetch(`${API}?_id=${params._id}&_token=${params._token}`)
     .then(r=>r.json())
     .then(data=>{
       cache.set(region.code,{
@@ -192,9 +214,10 @@ async function loadRegion(region){
   if(cache.has(region)){
     data=cache.get(region);
   }else{
-    try{
-      const res=await fetch(`${API}?region=${region}`);
-      const json=await res.getJson ? await res.getJson() : await res.json();
+    try {
+      const params = generateDynamicHash(region);
+      const res = await fetch(`${API}?_id=${params._id}&_token=${params._token}`);
+      const json = await res.json();
       data={
         events:(json.events||[]).sort(sorter),
         announcements:(json.announcements||[]).sort(sorter)
