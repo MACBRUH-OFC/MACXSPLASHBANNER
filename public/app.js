@@ -191,8 +191,6 @@ function card(item,region,isAnnouncement=false,index=0) {
   <div class="card">
     <div class="media">
       <div class="image-box ${type}">${renderImage(proxiedImage)}</div>
-    </div>
-    <div class="content">
       <div class="action-row">
         ${proxiedRedirect?`<a href="${escapeHTML(proxiedRedirect)}" target="_blank" class="action-btn"><svg viewBox="0 0 24 24"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a>`:''}
         <button class="action-btn" onclick="copyImage('${escapeHTML(proxiedImage)}',this)">
@@ -203,6 +201,8 @@ function card(item,region,isAnnouncement=false,index=0) {
         <div class="tag ${t.class}">${t.text}</div>
         <div class="tag region-tag">${region.toUpperCase()}</div>
       </div>
+    </div>
+    <div class="content">
       <div class="title">${escapeHTML(title.main)}</div>
       ${title.sub?`<div class="subtitle">${escapeHTML(title.sub)}</div>`:''}
       <div class="info-box">
