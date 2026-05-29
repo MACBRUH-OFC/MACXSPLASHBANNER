@@ -2,12 +2,21 @@
   "version": 2,
   "rewrites": [
     {
+      "source": "/(app\\.js|styles\\.css)",
+      "status": 403,
+      "destination": "/public/index.html"
+    },
+    {
       "source": "/api/fetch-region",
       "destination": "/api/fetch-region.js"
     },
     {
       "source": "/assets/:region/:filename",
       "destination": "/api/fetch-region.js"
+    },
+    {
+      "source": "/(ind|br|na|sac|mea|vn|bd|pk|sg|id|cis|th|tw|eu)/?",
+      "destination": "/public/index.html"
     },
     {
       "source": "/(.*)",
