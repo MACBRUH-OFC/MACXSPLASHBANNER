@@ -191,6 +191,8 @@ function card(item,region,isAnnouncement=false,index=0) {
   <div class="card">
     <div class="media">
       <div class="image-box ${type}">${renderImage(proxiedImage)}</div>
+    </div>
+    <div class="content">
       <div class="action-row">
         ${proxiedRedirect?`<a href="${escapeHTML(proxiedRedirect)}" target="_blank" class="action-btn"><svg viewBox="0 0 24 24"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a>`:''}
         <button class="action-btn" onclick="copyImage('${escapeHTML(proxiedImage)}',this)">
@@ -201,8 +203,6 @@ function card(item,region,isAnnouncement=false,index=0) {
         <div class="tag ${t.class}">${t.text}</div>
         <div class="tag region-tag">${region.toUpperCase()}</div>
       </div>
-    </div>
-    <div class="content">
       <div class="title">${escapeHTML(title.main)}</div>
       ${title.sub?`<div class="subtitle">${escapeHTML(title.sub)}</div>`:''}
       <div class="info-box">
@@ -252,30 +252,14 @@ function init(){
   REGIONS.forEach(region=>{
     const btn=document.createElement("button");
     btn.className='region-btn';
-    btn.id=`btn_${region.code}`;
     btn.innerHTML=`<div class="region-code">${region.code.toUpperCase()}</div><div class="region-name">${region.name}</div>`;
     btn.onclick=()=>{
       document.querySelectorAll('.region-btn').forEach(v=>{v.classList.remove('active');});
       btn.classList.add('active');
-      window.history.pushState(null, '', `/${region.code}`);
       loadRegion(region.code);
     };
     container.appendChild(btn);
   });
-  
-  const pathSegment = window.location.pathname.replace(/^\/|\/$/g, '').toLowerCase();
-  const matchedRegion = REGIONS.find(r => r.code === pathSegment);
-  
-  if (matchedRegion) {
-    const activeBtn = document.getElementById(`btn_${matchedRegion.code}`);
-    if (activeBtn) activeBtn.classList.add('active');
-    loadRegion(matchedRegion.code);
-  } else {
-    const fallbackBtn = document.getElementById(`btn_${REGIONS[0].code}`);
-    if (fallbackBtn) fallbackBtn.classList.add('active');
-    loadRegion(REGIONS[0].code);
-  }
-
   preloadAll();
 }
 
