@@ -252,14 +252,30 @@ function init(){
   REGIONS.forEach(region=>{
     const btn=document.createElement("button");
     btn.className='region-btn';
+    btn.id=`btn_${region.code}`;
     btn.innerHTML=`<div class="region-code">${region.code.toUpperCase()}</div><div class="region-name">${region.name}</div>`;
     btn.onclick=()=>{
       document.querySelectorAll('.region-btn').forEach(v=>{v.classList.remove('active');});
       btn.classList.add('active');
+      window.history.pushState(null, '', `/${region.code}`);
       loadRegion(region.code);
     };
     container.appendChild(btn);
   });
+  
+  const pathSegment = window.location.pathname.replace(/^\/|\/$/g, '').toLowerCase();
+  const matchedRegion = REGIONS.find(r => r.code === pathSegment);
+  
+  if (matchedRegion) {
+    const activeBtn = document.getElementById(`btn_${matchedRegion.code}`);
+    if (activeBtn) activeBtn.classList.add('active');
+    loadRegion(matchedRegion.code);
+  } else {
+    const fallbackBtn = document.getElementById(`btn_${REGIONS[0].code}`);
+    if (fallbackBtn) fallbackBtn.classList.add('active');
+    loadRegion(REGIONS[0].code);
+  }
+
   preloadAll();
 }
 
