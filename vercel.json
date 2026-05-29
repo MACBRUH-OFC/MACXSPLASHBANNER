@@ -6,7 +6,7 @@
       "destination": "/api/fetch-region.js"
     },
     {
-      "source": "/assets/:region/:type/:filename",
+      "source": "/assets/:region/:filename",
       "destination": "/api/fetch-region.js"
     },
     {
