@@ -4,7 +4,7 @@
     {
       "source": "/(app\\.js|styles\\.css)",
       "status": 403,
-      "destination": "/public/index.html"
+      "destination": "/index.html"
     },
     {
       "source": "/api/fetch-region",
@@ -16,11 +16,11 @@
     },
     {
       "source": "/(ind|br|na|sac|mea|vn|bd|pk|sg|id|cis|th|tw|eu)/?",
-      "destination": "/public/index.html"
+      "destination": "/index.html"
     },
     {
       "source": "/(.*)",
-      "destination": "/public/$1"
+      "destination": "/$1"
     }
   ]
 }
