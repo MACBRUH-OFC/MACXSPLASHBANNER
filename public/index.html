@@ -2,31 +2,50 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Splash Website</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MACXSPLASH</title>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-    <header id="header">
-        <div class="header-inner">
-            <div class="logo-area">
-                <h1>Splash <span>Website</span></h1>
-                <div class="badge" id="selectedRegion">...</div>
+
+<div class="header" id="header">
+    <div class="header-inner">
+        <div class="brand">
+            <div class="logo-box">
+                <img src="https://raw.githubusercontent.com/MACBRUH-OFC/FreeFire-Resources/refs/heads/main/Others/MACXFREEFIRE.png" alt="Logo">
+            </div>
+            <div class="brand-text">
+                <div class="brand-title">MACXSPLASH</div>
+                <div class="brand-sub">ALL REGIONS SPLASH CENTRAL</div>
             </div>
         </div>
-    </header>
+        <div class="region-pill" id="selectedRegion">—</div>
+    </div>
+</div>
 
-    <div class="layout">
-        <aside class="sidebar">
-            <div class="sidebar-nav" id="regions"></div>
-        </aside>
-        <main class="main-content" id="app"></main>
+<div class="container">
+    <div class="region-top">REGIONS LIST</div>
+    <div class="region-selector" id="regions"></div>
+
+    <div id="app">
+        <div class="welcome">
+            <h2>Choose a Region</h2>
+            <p>Browse live splash pages, token rings, announcements, notices, redirect pages and official Free Fire region updates in one optimized viewer.</p>
+        </div>
     </div>
 
-    <button id="scrollTop" title="Scroll to top">
-        <svg viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg>
-    </button>
+    <div class="footer">
+        © MACXSPLASH • ALL REGIONS SPLASH CENTRAL
+    </div>
+</div>
 
-    <script src="/app.js"></script>
+<div class="scroll-top" id="scrollTop">
+    <svg viewBox="0 0 24 24">
+        <path d="M18 15l-6-6-6 6"/>
+    </svg>
+</div>
+
+<script src="/app.js"></script>
 </body>
 </html>
