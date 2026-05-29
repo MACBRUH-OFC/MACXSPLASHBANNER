@@ -164,20 +164,21 @@ function renderImage(url){
   return`<img src="${escapeHTML(url)}" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=&quot;error-box&quot;>IMAGE LOAD FAILED</div>';">`;
 }
 
-function convertToProxyUrl(originalUrl, region, type) {
+function convertToProxyUrl(originalUrl, region, isRedirect = false) {
   if (!originalUrl) return '';
   try {
     const urlObj = new URL(originalUrl);
     const filename = urlObj.pathname.split('/').pop() || 'file';
-    return `/assets/${region}/${type}/${filename}?file=${encodeURIComponent(originalUrl)}`;
+    const typeMark = isRedirect ? 'r_' : 'i_';
+    return `/assets/${region}/${typeMark}${filename}?file=${encodeURIComponent(originalUrl)}`;
   } catch (e) {
     return originalUrl;
   }
 }
 
 function card(item,region,isAnnouncement=false,index=0) {
-  const proxiedImage = convertToProxyUrl(item.image, region, 'images');
-  const proxiedRedirect = convertToProxyUrl(item.redirect_url || item.social_url, region, 'redirects');
+  const proxiedImage = convertToProxyUrl(item.image, region, false);
+  const proxiedRedirect = convertToProxyUrl(item.redirect_url || item.social_url, region, true);
 
   const type=imageType(item.image||'');
   const t=tag(item.start_time);
