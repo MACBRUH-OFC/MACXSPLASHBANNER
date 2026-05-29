@@ -1,26 +1,5 @@
 {
   "version": 2,
-  "cleanUrls": true,
-  "headers": [
-    {
-      "source": "/app.js",
-      "headers": [
-        {
-          "key": "x-robots-tag",
-          "value": "noindex"
-        }
-      ]
-    },
-    {
-      "source": "/styles.css",
-      "headers": [
-        {
-          "key": "x-robots-tag",
-          "value": "noindex"
-        }
-      ]
-    }
-  ],
   "rewrites": [
     {
       "source": "/api/fetch-region",
@@ -31,12 +10,8 @@
       "destination": "/api/fetch-region.js"
     },
     {
-      "source": "/(ind|br|na|sac|mea|vn|bd|pk|sg|id|cis|th|tw|eu)",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/(ind|br|na|sac|mea|vn|bd|pk|sg|id|cis|th|tw|eu)/",
-      "destination": "/index.html"
+      "source": "/(.*)",
+      "destination": "/public/$1"
     }
   ]
 }
